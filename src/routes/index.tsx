@@ -15,7 +15,7 @@ type Emoji = {
 }
 
 function Home() {
-  const [emojiSize, setEmojiSize] = useState(1) // size in pixels
+  const [emojiSize, setEmojiSize] = useState(24) // size in pixels
 
   const [emojis, setEmojis] = useState<Emoji[]>([])
 
@@ -159,7 +159,7 @@ function Home() {
               const dy = emoji1.position.y - emoji2.position.y
               const distance = Math.sqrt(dx * dx + dy * dy)
               
-              if (distance < emojiSize) {
+              if (distance < emojiSize * 2) {
                 collisions.push({
                   id1: emoji1.id,
                   id2: emoji2.id,
@@ -181,12 +181,12 @@ function Home() {
           let newVelocityY = emoji.velocity.y
           
           // Check boundaries and bounce
-          if (newX <= 0 || newX + emojiSize >= containerWidth) {
+          if (newX <= 0 || newX + emojiSize * 1.5 >= containerWidth) {
             newVelocityX = -emoji.velocity.x // Reverse x direction
           }
           
           // Bottom boundary
-          if (newY + emojiSize >= containerHeight) {
+          if (newY + emojiSize * 1.5 >= containerHeight) {
             newVelocityY = -emoji.velocity.y // Reverse y direction
           }
           
@@ -197,8 +197,8 @@ function Home() {
           }
           
           // Ensure emoji stays in bounds
-          newX = Math.max(0, Math.min(containerWidth - emojiSize, newX))
-          newY = Math.max(headerHeight, Math.min(containerHeight - emojiSize, newY))
+          newX = Math.max(0, Math.min(containerWidth - emojiSize * 1.5, newX))
+          newY = Math.max(headerHeight, Math.min(containerHeight - emojiSize * 1.5, newY))
           
           return {
             ...emoji,
@@ -304,11 +304,10 @@ function Home() {
           style={{ 
             left: `${emoji.position.x}px`, 
             top: `${emoji.position.y}px`,
-            width: `${emojiSize}px`,
-            height: `${emojiSize}px`,
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            fontSize: `${emojiSize}px`
           }}
         >
           {emojiMap[emoji.type]}
@@ -387,9 +386,9 @@ function Home() {
             <input
               id="sizeControl"
               type="range"
-              min="1"
-              max="50"
-              step="1"
+              min="10"
+              max="60"
+              step="2"
               value={emojiSize}
               onChange={(e) => setEmojiSize(Number.parseInt(e.target.value))}
               className="w-full bg-white"
