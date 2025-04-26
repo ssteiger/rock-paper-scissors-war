@@ -1,1 +1,8 @@
-# rock-paper-scissors-war
+# Rocker Paper Scissors War
+
+## Development
+
+```sh
+pnpm install
+pnpm dev
+```
